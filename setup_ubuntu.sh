@@ -38,7 +38,7 @@ chmod 600 ~/.ssh/*
 # setup nsenter
 if ! which nsenter
 then
-	docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+	sudo docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
 fi
 
 if ! which java
