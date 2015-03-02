@@ -9,7 +9,8 @@ sudo apt-get install -y \
   docker.io libvirt-bin kvm \
   openvswitch-switch \
   libxslt1-dev libmysqlclient-dev \
-  python-software-properties
+  python-software-properties \
+  debconf-utils
 
 sudo adduser $(whoami) docker
 
@@ -60,6 +61,7 @@ if ! which java
 then
     # install oracle java
     sudo add-apt-repository ppa:webupd8team/java
+    echo "oracle-java7-installer	shared/accepted-oracle-license-v1-1	boolean	true" | sudo debconf-set-selections
     sudo apt-get update
     sudo apt-get install oracle-java7-installer -y
 fi
