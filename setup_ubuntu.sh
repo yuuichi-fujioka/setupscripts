@@ -16,15 +16,18 @@ sudo adduser $(whoami) docker
 sudo pip install -U pip setuptools ansible virtualenv tox
 
 # make directories
-if [ ! -d ~/bin ]
-then
-    mkdir ~/bin
-fi
+function mkmydir() {
+    local dirpath=$1
+    if [ ! -d ${dirpath} ]
+    then
+        sudo mkdir ${dirpath}
+        sudo chown $(whoami):$(whoami) ${dirpath}
+    fi
+}
 
-if [ ! -d ~/.ssh ]
-then
-	mkdir ~/.ssh
-fi
+mkmydir ~/bin
+mkmydir ~/.ssh
+mkmydir /etc/ansible
 
 # setup around ssh
 if [ ! -f ~/.ssh/id_rsa ]
@@ -34,6 +37,18 @@ fi
 
 touch ~/.ssh/config ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/*
+
+# setup around ansible
+
+cat << EOF > /etc/ansible/hosts
+local ansible_connection=local
+EOF
+
+cat << EOF > /etc/ansible/ansible.cfg
+[defaults]
+host_key_checking=False
+log_path=ansible.log
+EOF
 
 # setup nsenter
 if ! which nsenter
