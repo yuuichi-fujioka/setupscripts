@@ -10,7 +10,8 @@ sudo apt-get install -y \
   openvswitch-switch \
   libxslt1-dev libmysqlclient-dev \
   python-software-properties \
-  debconf-utils
+  debconf-utils \
+  jq
 
 sudo adduser $(whoami) docker
 
